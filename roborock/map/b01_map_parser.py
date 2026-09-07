@@ -277,7 +277,7 @@ def _assign_room_pixels(parsed: RobotMap, grid: bytes, *, size_x: int, size_y: i
         start = row * size_x + col
         if not (0 <= col < size_x and 0 <= row < size_y) or grid[start] != _FLOOR:
             continue
-        filled = []
+        filled: list[int] = []
         queue = deque([start])
         seen = {start}
         while queue and len(filled) <= max_fill:

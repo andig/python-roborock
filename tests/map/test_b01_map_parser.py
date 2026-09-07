@@ -168,6 +168,7 @@ def test_b01_map_parser_projects_poses_and_path() -> None:
 
     # World (0, 0) with min (-0.1, -0.1) at 0.05 m/px is pixel (2, 2),
     # flipped top-down to row sizeY - 1 - 2 = 1.
+    assert map_data is not None
     assert map_data.charger is not None
     assert (map_data.charger.x, map_data.charger.y) == pytest.approx((2.0, 1.0))
     assert map_data.vacuum_position is not None
@@ -192,6 +193,7 @@ def test_b01_map_parser_rejects_placeholder_pose() -> None:
     map_data = parsed.map_data
 
     # The out-of-bounds pose is ignored; the robot is shown at its dock.
+    assert map_data is not None
     assert map_data.vacuum_position is not None
     assert (map_data.vacuum_position.x, map_data.vacuum_position.y) == pytest.approx((2.0, 1.0))
 
@@ -211,6 +213,7 @@ def test_b01_map_parser_extracts_rooms_from_outlines() -> None:
         point.y = y
 
     parsed = B01MapParser().parse(payload.SerializeToString())
+    assert parsed.map_data is not None
     rooms = parsed.map_data.rooms
 
     assert rooms is not None
@@ -258,6 +261,7 @@ def test_b01_map_parser_colors_enclosed_room_pixels() -> None:
                 point.y = row
 
     parsed = B01MapParser().parse(payload.SerializeToString())
+    assert parsed.image_content is not None
     img = Image.open(io.BytesIO(parsed.image_content)).convert("RGB")
 
     # Raw (3, 3) flips to display row 2; scale 4 puts it at (12..15, 8..11).
